@@ -1,35 +1,19 @@
-# packt-books
 
-This template should help get you started developing with Vue 3 in Vite.
+# Packt Interview ( Client )
 
-## Recommended IDE Setup
+The client has requested that there be a search page and a product page as a bare
+minimum with the idea that a user will input a title of a book and be given a list of
+available products.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Deployment
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+* to Install dependency libraries run command from the project directory
+```bash
+  npm install
 ```
 
-### Compile and Hot-Reload for Development
+To launch this project run
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+```bash
+  npm run dev
 ```
