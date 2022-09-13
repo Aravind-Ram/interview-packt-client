@@ -57,7 +57,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="p-4 p-md-5 mb-4 rounded text-bg-dark w-100" v-if="books.length === 0">
+						<div class="p-4 p-md-5 mb-4 rounded text-bg-dark w-100" v-if="(!loading && books.length === 0)">
 							<div class="col-md-6 px-0">
 								<h1 class="display-4 fst-italic">Sorry!.</h1>
 								<p class="lead my-3">No results found...</p>
