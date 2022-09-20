@@ -1,6 +1,7 @@
 <template>
 	<div class="album bg-light" style="padding-top: 7rem;">
 		<div class="container-fluid">
+			<!-- <loading v-model:active="loading" is-full-page="true" /> -->
 			<div class="row">
 				<ShopFilterVue :search="search" :genres="genres" :authors="authors" :publishers="publishers"
 					:clearFilter="clearFilter" :multiFilter="multiFilter" :loadBooks="loadBooks"
@@ -74,13 +75,15 @@
 <script>
 import "vue-skeletor/dist/vue-skeletor.css";
 import { Skeletor } from "vue-skeletor";
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import ShopFilterVue from "./ShopFilter.vue";
 import PaginationVue from "../components/Pagination.vue";
+
 import _ from 'lodash'
 export default {
 	data() {
 		return {
-			filterLoading: true,
 			loading: true,
 			search: {
 				q: '',
@@ -107,7 +110,11 @@ export default {
 		setQueryParams() {
 			const queryParams = this.$route.query;
 			for (const property in queryParams) {
-				this.search[property] = queryParams[property];
+				if (property !== 'q' && typeof queryParams[property] === 'string') {
+					this.search[property] = [queryParams[property]];
+				} else {
+					this.search[property] = queryParams[property];
+				}
 			}
 		},
 		togglePage(page) {
@@ -135,6 +142,7 @@ export default {
 			this.loadBooks();
 		},
 		loadBooks() {
+			this.filterLoading = true
 			this.axios.get("book-collections", {
 				params: this.search
 			})
