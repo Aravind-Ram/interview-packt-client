@@ -105,9 +105,10 @@ export default {
 	},
 	methods: {
 		setQueryParams() {
-			// if(this.$route.query) {
-			// 	this.search = this.$route.query;
-			// }
+			const queryParams = this.$route.query;
+			for (const property in queryParams) {
+				this.search[property] = queryParams[property];
+			}
 		},
 		togglePage(page) {
 			this.search.page = page;
@@ -123,7 +124,6 @@ export default {
 			this.loadBooks();
 		},
 		multiFilter(e, filter) {
-			console.log(this.search.q);
 			const searchFilters = this.search[filter];
 			if (e.target.checked === false) {
 				const removedArray = searchFilters.filter(item => item !== e.target.value);
@@ -143,7 +143,7 @@ export default {
 					if (responseData.status === "OK" && responseData.code === 200) {
 						this.books = responseData.data;
 						this.meta = responseData?.meta;
-						// this.$router.replace({ query: this.getValidParms() });
+						this.$router.replace({ query: this.search });
 					}
 				})
 				.catch(err => {
@@ -157,11 +157,7 @@ export default {
 		searchInput: _.debounce(function (e) {
 			this.loadBooks();
 		}, 500),
-		getValidParms() {
-			return Object.entries(this.search).reduce((a, [k, v]) => (v ? (a[k] = v, a) : a), {});
-		},
 		loadAuthor() {
-
 			this.axios.get('author-options')
 				.then(response => {
 					const responseData = response.data;
