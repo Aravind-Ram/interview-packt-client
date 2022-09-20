@@ -12,27 +12,54 @@
                             placeholder="Book title or ISBN">
                     </div>
                     <div class="form-group py-2">
-                        <label for="author_id" class="form-label">Author</label>
-                        <select class="form-select" v-model="search.author_id" @change="loadBooks()">
-                            <option v-for="(item) in authors" :value="item.uuid">{{item.author_name}}
-                            </option>
-                        </select>
+                        <div class="card">
+                            <div class="card-header">
+                                <label for="author_id" class="card-title form-label">Author</label>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-check" v-for="(item) in authors">
+                                    <input class="form-check-input" type="checkbox" v-model="search.authors"
+                                        :value="item.slug" :id="item.slug" @change="loadBooks()">
+                                    <label class="form-check-label" :for="item.slug">
+                                        {{item.author_name}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group py-2">
-                        <label for="genre_id" class="form-label">Genra</label>
-                        <select class="form-select" v-model="search.genre_id" @change="loadBooks()">
-                            <option v-for="(item) in genres" :value="item.uuid">{{item.genre_name}}
-                            </option>
-                        </select>
+                        <div class="card">
+                            <div class="card-header">
+                                <label for="genra_id" class="card-title form-label">Genra</label>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-check" v-for="(item) in genres">
+                                    <input class="form-check-input" type="checkbox" v-model="search.genres"
+                                        :value="item.slug" :id="item.slug" @change="loadBooks()">
+                                    <label class="form-check-label" :for="item.slug">
+                                        {{item.genre_name}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group py-3">
-                        <label for="publisher_id" class="form-label">Publisher</label>
-                        <select class="form-select" v-model="search.publisher_id" @change="loadBooks()">
-                            <option v-for="(item) in publishers" :value="item.uuid">
-                                {{item.publisher_name}}</option>
-                        </select>
+                        <div class="card">
+                            <div class="card-header">
+                                <label for="publisher_id" class="card-title form-label">Publisher</label>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-check" v-for="(item) in publishers">
+                                    <input class="form-check-input" type="checkbox" v-model="search.publishers"
+                                        :value="item.slug" :id="item.slug" @change="loadBooks()">
+                                    <label class="form-check-label" :for="item.slug">
+                                        {{item.publisher_name}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
                 <button type="button" @click="clearFilter()" class="w-100 btn btn-lg btn-outline-primary">Clear
@@ -48,6 +75,7 @@ export default {
         clearFilter: { type: Function },
         loadBooks: { type: Function },
         searchInput: { type: Function },
+        multiFilter: { type: Function },
         genres: Array,
         authors: Array,
         publishers: Array,

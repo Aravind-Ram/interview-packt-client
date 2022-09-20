@@ -159,7 +159,7 @@ export default {
         onFileChanged(e) {
             let formData = new FormData();
             formData.append('file_path', e.target.files[0]);
-            formData.append('uuid', this.formData.gallery_id);
+            formData.append('uuid', this.formData.gallery_id || '');
             this.axios.post('gallery', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'

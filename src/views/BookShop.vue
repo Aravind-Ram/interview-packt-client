@@ -3,7 +3,8 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ShopFilterVue :search="search" :genres="genres" :authors="authors" :publishers="publishers"
-					:clearFilter="clearFilter" :loadBooks="loadBooks" :searchInput="searchInput" />
+					:clearFilter="clearFilter" :multiFilter="multiFilter" :loadBooks="loadBooks"
+					:searchInput="searchInput" />
 				<div class="col-md-9">
 					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
 						<div class="col-md-4" v-for="index in 3" v-if="loading">
@@ -27,7 +28,7 @@
 						</div>
 						<div class="col-md-4" v-for="(book, index) in books" v-if="(!loading)">
 							<div class="card shadow-sm">
-								<img :src="book.gallery" style="width:auto;height:200px">
+								<img :src="book.gallery">
 								<div class="card-body bg-dark">
 									<h5 class="card-title text-center text-white">{{book.title}}</h5>
 									<div class="d-flex justify-content-between">
@@ -79,12 +80,13 @@ import _ from 'lodash'
 export default {
 	data() {
 		return {
+			filterLoading: true,
 			loading: true,
 			search: {
 				q: '',
-				author_id: '',
-				genre_id: '',
-				publisher_id: ''
+				authors: [],
+				genres: [],
+				publishers: []
 			},
 			authors: [],
 			genres: [],
@@ -103,7 +105,9 @@ export default {
 	},
 	methods: {
 		setQueryParams() {
-			this.search = this.$route.query;
+			// if(this.$route.query) {
+			// 	this.search = this.$route.query;
+			// }
 		},
 		togglePage(page) {
 			this.search.page = page;
@@ -112,9 +116,21 @@ export default {
 		clearFilter() {
 			this.search = {
 				q: '',
-				author_id: '',
-				genre_id: '',
-				publisher_id: ''
+				authors: [],
+				genres: [],
+				publishers: []
+			}
+			this.loadBooks();
+		},
+		multiFilter(e, filter) {
+			console.log(this.search.q);
+			const searchFilters = this.search[filter];
+			if (e.target.checked === false) {
+				const removedArray = searchFilters.filter(item => item !== e.target.value);
+				this.search[filter] = removedArray;
+			} else {
+				searchFilters.push(e.target.value);
+				this.search[filter] = searchFilters;
 			}
 			this.loadBooks();
 		},
@@ -127,7 +143,7 @@ export default {
 					if (responseData.status === "OK" && responseData.code === 200) {
 						this.books = responseData.data;
 						this.meta = responseData?.meta;
-						this.$router.replace({ query: this.getValidParms() })
+						// this.$router.replace({ query: this.getValidParms() });
 					}
 				})
 				.catch(err => {
